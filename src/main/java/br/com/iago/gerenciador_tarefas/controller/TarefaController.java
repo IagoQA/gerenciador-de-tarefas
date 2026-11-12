@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/tarefas")
+@RequestMapping("/api/v1/tarefas")
 public class TarefaController {
 
     private final TarefaService tarefaService;

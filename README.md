@@ -1,38 +1,46 @@
-# Gerenciador de Tarefas
+# Gerenciador de Tarefas Pessoais
 
-Projeto desenvolvido para a atividade da faculdade utilizando Java e Spring Boot.
-
-O sistema permite cadastrar, listar, atualizar e excluir tarefas pessoais.
+API REST desenvolvida em Java com Spring Boot para gerenciamento de tarefas pessoais.
 
 ## Tecnologias utilizadas
 
 - Java 21
 - Spring Boot
-- Spring Web
 - Maven
-- Postman
+- Spring Web
+- Spring Validation
+- Springdoc OpenAPI
+- Swagger UI
 
-## Arquitetura do projeto
+## Organização do projeto
 
-O projeto utiliza uma arquitetura em camadas, separando as responsabilidades  
-da seguinte forma:
+O projeto está organizado em pacotes separados:
 
-- Controller: recebe as requisições HTTP e retorna as respostas.
-- Service: executa as operações e regras do sistema.
-- Model: representa os dados das tarefas.
-- Exception: realiza o tratamento global de erros.
+- `controller`: recebe e responde às requisições HTTP.
+- `service`: contém as operações do sistema.
+- `model`: representa os dados das tarefas.
+- `exception`: realiza o tratamento de erros e exceções.
+- `config`: contém as configurações da documentação OpenAPI.
+
+## Versionamento da API
+
+Foi utilizado o versionamento por URL.
+
+A versão atual é **v1**, com o endereço base:
+
+`http://localhost:8080/api/v1/tarefas`
 
 ## Endpoints
 
-| Método | Endereço        | Função           |
-|--------|-----------------|------------------|
-| GET    | `/tarefas`      | Listar tarefas   |
-| GET    | `/tarefas/{id}` | Buscar tarefa    |
-| POST   | `/tarefas`      | Cadastrar tarefa |
-| PUT    | `/tarefas/{id}` | Atualizar tarefa |
-| DELETE | `/tarefas/{id}` | Excluir tarefa   |
+| Método | Endpoint | Descrição |
+|---|---|---|
+| GET | `/api/v1/tarefas` | Lista todas as tarefas |
+| GET | `/api/v1/tarefas/{id}` | Busca uma tarefa pelo ID |
+| POST | `/api/v1/tarefas` | Cadastra uma tarefa |
+| PUT | `/api/v1/tarefas/{id}` | Atualiza uma tarefa |
+| DELETE | `/api/v1/tarefas/{id}` | Exclui uma tarefa |
 
-## Exemplo de cadastro
+## Exemplo de requisição POST
 
 ```json
 {
@@ -42,21 +50,59 @@ da seguinte forma:
 }
 ```
 
-## Validações e tratamento de erros
+### Campos
 
-O sistema possui validações para impedir o cadastro de tarefas sem título e limitar o tamanho dos campos.
+- `titulo`: obrigatório, máximo de 100 caracteres.
+- `descricao`: opcional, máximo de 300 caracteres.
+- `concluida`: indica se a tarefa foi concluída.
 
-Também possui tratamento de respostas HTTP:
+## Códigos de resposta
 
-- 200: requisição realizada com sucesso.
-- 201: tarefa cadastrada.
-- 204: tarefa excluída.
-- 400: dados inválidos.
-- 404: tarefa não encontrada.
-- 500: erro interno do servidor.
+- `200 OK`: operação realizada com sucesso.
+- `201 Created`: tarefa cadastrada.
+- `204 No Content`: tarefa excluída.
+- `400 Bad Request`: dados inválidos ou JSON incorreto.
+- `404 Not Found`: tarefa não encontrada.
+- `500 Internal Server Error`: erro interno do servidor.
 
-## Testes
+## Tratamento de erros
 
-Todos os métodos foram testados no Postman e estão funcionando corretamente.
+A aplicação utiliza `GlobalExceptionHandler` para centralizar o tratamento de exceções.
 
-O projeto utiliza armazenamento em memória, portanto as tarefas são perdidas quando a aplicação é reiniciada.
+As respostas apresentam informações como tipo do erro, mensagem e código HTTP, facilitando a identificação de problemas.
+
+## Documentação Swagger / OpenAPI
+
+A documentação é gerada automaticamente utilizando Springdoc OpenAPI.
+
+**Swagger UI:**
+
+`http://localhost:8080/swagger-ui/index.html`
+
+**Especificação OpenAPI em JSON:**
+
+`http://localhost:8080/v3/api-docs`
+
+Pelo Swagger, é possível visualizar os endpoints, consultar os parâmetros e executar requisições para testar a API.
+
+## Arquitetura
+
+O projeto utiliza uma arquitetura em camadas:
+
+Cliente → Controller → Service → Model
+
+O tratamento de exceções é realizado pela camada `exception`, enquanto a documentação é configurada no pacote `config`.
+
+## Execução do projeto
+
+Abra o projeto no IntelliJ IDEA e execute a classe `GerenciadorTarefasApplication`.
+
+A aplicação ficará disponível em `http://localhost:8080`.
+
+## Observação
+
+Os dados são armazenados temporariamente em memória e são perdidos quando a aplicação é reiniciada.
+
+## Testes realizados
+
+Foram testados os métodos GET, POST, PUT e DELETE, além das validações de campos e respostas de erro, utilizando o Swagger UI.
