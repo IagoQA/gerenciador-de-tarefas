@@ -8,8 +8,19 @@ O sistema permite cadastrar, listar, atualizar e excluir tarefas pessoais.
 
 - Java 21
 - Spring Boot
+- Spring Web
 - Maven
 - Postman
+
+## Arquitetura do projeto
+
+O projeto utiliza uma arquitetura em camadas, separando as responsabilidades  
+da seguinte forma:
+
+- Controller: recebe as requisições HTTP e retorna as respostas.
+- Service: executa as operações e regras do sistema.
+- Model: representa os dados das tarefas.
+- Exception: realiza o tratamento global de erros.
 
 ## Endpoints
 
@@ -30,6 +41,19 @@ O sistema permite cadastrar, listar, atualizar e excluir tarefas pessoais.
   "concluida": false
 }
 ```
+
+## Validações e tratamento de erros
+
+O sistema possui validações para impedir o cadastro de tarefas sem título e limitar o tamanho dos campos.
+
+Também possui tratamento de respostas HTTP:
+
+- 200: requisição realizada com sucesso.
+- 201: tarefa cadastrada.
+- 204: tarefa excluída.
+- 400: dados inválidos.
+- 404: tarefa não encontrada.
+- 500: erro interno do servidor.
 
 ## Testes
 

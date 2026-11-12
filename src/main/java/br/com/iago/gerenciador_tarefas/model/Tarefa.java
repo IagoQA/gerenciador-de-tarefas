@@ -2,14 +2,17 @@
 package br.com.iago.gerenciador_tarefas.model;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
 public class Tarefa {
 
     private Long id;
 
     @NotBlank(message = "O título é obrigatório")
+    @Size(max = 100, message = "O título deve ter no máximo 100 caracteres!")
     private String titulo;
 
+    @Size(max = 300, message = "A descrição deve ter no máximo 300 caracteres!")
     private String descricao;
 
     private boolean concluida;
